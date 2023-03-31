@@ -47,25 +47,9 @@ public class HomeWorkServiceImpl implements HomeWorkService {
 
     @Override
     public List<User> getRoleUsers(Role role) {
-        List<User> userArrayList = new ArrayList<>();
 
 
-        try (final Connection connection = DriverManager.getConnection(url, user1, password);
-             PreparedStatement statement = connection.prepareStatement(
-                     "SELECT * FROM user LEFT JOIN role ON user.role_id=role.role_id")) {
-
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-
-                int userId = Integer.parseInt(resultSet.getString("user_id"));
-                String name = resultSet.getString("name");
-                userArrayList.add(new User(userId, name));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return userArrayList;
+        return null;
     }
 
     @Override

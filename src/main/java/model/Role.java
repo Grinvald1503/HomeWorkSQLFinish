@@ -1,6 +1,10 @@
 package model;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 @Entity
@@ -12,14 +16,31 @@ public class Role {
     private int roleId;
     @Column(name = "role_name")
     private String roleName;
-    @ManyToMany(mappedBy = "User", cascade = CascadeType.ALL)
-    private Set<User> User;
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @LazyCollection(LazyCollectionOption.TRUE)
+    @OrderBy
+    private Set<User> users;
 
     public Role() {
     }
 
     public Role(String roleName) {
         this.roleName = roleName;
+        users = new HashSet<>();
+    }
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+    public void removeUser(User user) {
+        users.remove(user);
+    }
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     public Role(int roleId, String roleName) {
